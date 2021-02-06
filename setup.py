@@ -10,17 +10,17 @@ def read(filename:str):
 
 
 setup(
-    name="birdman",
+    name="inori",
     version="0.0.1",
     description="The Universal API Client Constructor.",
     long_description=read('README.rst'),
     author="Joshua Fehler",
     license="GPLv3",
-    url="https://github.com/jsfehler/birdman",
+    url="https://github.com/jsfehler/inori",
     packages=find_packages(),
     install_requires=[
-        'requests==2.25.1',
-        'shibari==0.0.2',
+        'requests>=2.26.0',
+        'shibari>=0.0.2',
     ],
     classifiers=[
         "Programming Language :: Python :: 3.6",

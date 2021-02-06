@@ -1,1 +1,1 @@
-Birdman - The Universal API Client Constructor 
+Inori - The Universal API Client Constructor 
