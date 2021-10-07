@@ -19,6 +19,7 @@ Documentation
 
   client
   route
+  headers
 
 Indices and tables
 ==================
