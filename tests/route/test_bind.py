@@ -1,3 +1,4 @@
+import random
 import time
 from unittest import mock
 
@@ -17,7 +18,8 @@ def test_bind(client):
 
     @route.bind('request')
     def dummy():
-        return str(time.time())
+        # Get a relatively randomly string.
+        return str(random.random()) + str(time.time())
 
     a = dummy()
     b = dummy()
