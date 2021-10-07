@@ -13,15 +13,15 @@ from .utils.string_template import StringTemplate
 class Route:
     """Representation of a single route in an API.
 
-    Can be called independant of the Client object.
+    Route objects should be created via Client.add_route().
 
     Example:
-        client = Client('http://foo.bar/v1')
-        fruits = client.add_route('fruits')
+        >>> client = Client('http://foo.bar/v1')
+        >>> fruits = client.add_route('fruits')
 
-        # The following are equivalent statements:
-        fruits.get()
-        client.fruits.get()
+        >>> # The following are equivalent statements:
+        >>> fruits.get()
+        >>> client.fruits.get()
 
     Arguments:
         url: A string resembling a URI.

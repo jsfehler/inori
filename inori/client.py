@@ -30,7 +30,7 @@ class Client:
         >>> result = client.fruits.request('GET')
 
     Routes requiring attributes are declared using a template,
-     then provided by calling the Route.
+    then provided by calling the Route.
 
     Example:
 
