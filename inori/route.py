@@ -1,13 +1,14 @@
-from __future__ import annotations
-
 import copy
-from typing import Any, Dict
+from typing import Any, Dict, TypeVar
 
 import requests
 
 import shibari
 
 from .utils.string_template import StringTemplate
+
+
+T = TypeVar('T', bound='Route')
 
 
 class Route:
@@ -69,7 +70,7 @@ class Route:
 
         return new
 
-    def __call__(self, **kwargs: str) -> Route:  # NOQA C90
+    def __call__(self, **kwargs: str) -> T:  # NOQA C90
         """If a Route has callables, it can be called with one argument.
 
         This argument will be placed into the URL of the callable.
