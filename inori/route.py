@@ -5,6 +5,7 @@ import requests
 
 import shibari
 
+from .utils.headerdict import HeaderDict
 from .utils.string_template import StringTemplate
 
 
@@ -46,7 +47,7 @@ class Route:
 
         self.url: StringTemplate = _url
 
-        self.headers: Dict[str, str] = {}
+        self.headers = HeaderDict()
 
         self.callables: Dict[str, Route] = {}
         self.children: Dict[str, Route] = {}
@@ -148,8 +149,8 @@ class Route:
         local_headers = kwargs.get('headers') or {}
 
         headers = {
-            **self.client.headers,
-            **self.headers,
+            **self.client.headers.run_functions(self.client),
+            **self.headers.run_functions(self.client),
             **local_headers,
         }
 

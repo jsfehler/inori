@@ -3,6 +3,7 @@ import uuid
 from typing import Dict, Union
 
 from .route import Route
+from .utils.headerdict import HeaderDict
 from .utils.safe_keyword import safe_keyword
 
 
@@ -79,6 +80,8 @@ class Client:
         self.base_uri = base_uri
 
         self.headers: Dict[str, str] = {}
+
+        self.headers = HeaderDict()
 
         self.logger = logging.getLogger(f'{__name__} {str(uuid.uuid4())}')
         self.logger.addHandler(logging.NullHandler())
