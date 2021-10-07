@@ -150,7 +150,7 @@ class Route:
 
         headers = {
             **self.client.headers.run_functions(self.client),
-            **self.headers.run_functions(self.client),
+            **self.headers.run_functions(self),
             **local_headers,
         }
 
