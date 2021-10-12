@@ -42,7 +42,7 @@ class Client:
         >>> response = client.fruits(fruitId='8').get()
 
     The string template doesn't need to be provided in pieces,
-     every piece will be turned into an attribute:
+    every piece will be turned into an attribute:
 
     Example:
 

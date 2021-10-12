@@ -135,7 +135,7 @@ class Route:
     def request(self,
                 http_method: str,
                 *args: Any,
-                headers: Optional[Union[Dict[str, str], None]]=None,
+                headers: Optional[Union[Dict[str, str], None]] = None,
                 **kwargs: Optional[Any],
                 ) -> requests.Response:
         """Send an HTTP Request.
