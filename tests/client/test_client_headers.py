@@ -29,7 +29,7 @@ def test_multiple_clients():
 def test_function_headers(client):
 
     @client.headers("Accept")
-    def complex_header(client):
+    def complex_header(client, request_metadata):
         return "A complex value"
 
     route = client.add_route("bar")

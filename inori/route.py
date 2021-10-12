@@ -1,5 +1,5 @@
 import copy
-from typing import Any, Dict, TypeVar
+from typing import Any, Dict, Optional, TypeVar, Union
 
 import requests
 
@@ -135,7 +135,8 @@ class Route:
     def request(self,
                 http_method: str,
                 *args: Any,
-                **kwargs: Any,
+                headers: Optional[Union[Dict[str, str], None]]=None,
+                **kwargs: Optional[Any],
                 ) -> requests.Response:
         """Send an HTTP Request.
 
@@ -146,21 +147,23 @@ class Route:
         """
         self.rig.rigs['request'] = {}
 
-        local_headers = kwargs.get('headers') or {}
-
-        headers = {
-            **self.client.headers.run_functions(self.client),
-            **self.headers.run_functions(self),
-            **local_headers,
-        }
+        local_headers = headers or {}
 
         request_metadata = {
             'http_method': http_method,
+            'headers': local_headers,
             'route': self.url,
-            'headers': headers,
             'data': kwargs.get('data') or kwargs.get('json'),
             'params': kwargs.get('params'),
         }
+
+        headers = {
+            **self.client.headers.run_functions(self.client, request_metadata),
+            **self.headers.run_functions(self, request_metadata),
+            **local_headers,
+        }
+
+        request_metadata['headers'] = headers
 
         self.client.log_request(request_metadata)
 

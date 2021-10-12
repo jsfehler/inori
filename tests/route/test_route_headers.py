@@ -17,7 +17,7 @@ def test_function_headers(client):
     route = client.add_route("bar")
 
     @route.headers("Accept")
-    def complex_header(client):
+    def complex_header(client, request_metadata):
         return "A complex value"
 
     client.bar.get()
