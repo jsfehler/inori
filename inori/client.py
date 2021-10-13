@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Dict, Union
+from typing import Dict, List, Union
 
 from .route import Route
 from .utils.headerdict import HeaderDict
@@ -74,10 +74,21 @@ class Client:
         response_metadata: Dictionary of relevant metadata from
             the last response.
 
+        logger_request_message: String that will be formatted with
+            request_metadata and sent to the logger when a request is made.
+
+        logger_response_message: String that will be formatted with
+            response_metadata and sent to the logger after a request is made.
+
     """
+
+    route_paths: List[str] = []
 
     def __init__(self, base_uri: str):
         self.base_uri = base_uri
+
+        for route in self.route_paths:
+            self.add_route(route)
 
         self.headers = HeaderDict()
 

@@ -17,6 +17,7 @@ Documentation
 .. toctree::
   :maxdepth: 2
 
+  constructing_a_client
   client
   route
   headers
