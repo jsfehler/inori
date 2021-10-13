@@ -1,5 +1,5 @@
 import copy
-from typing import Any, Dict, Optional, TypeVar, Union
+from typing import Any, Dict, Mapping, Optional, TYPE_CHECKING, TypeVar, Union
 
 import requests
 
@@ -7,6 +7,9 @@ import shibari
 
 from .utils.headerdict import HeaderDict
 from .utils.string_template import StringTemplate
+
+if TYPE_CHECKING:
+    from .client import Client
 
 
 T = TypeVar('T', bound='Route')
@@ -37,7 +40,9 @@ class Route:
     rig = shibari.Rig('request')
     bind = rig.bind
 
-    def __init__(self, client, url: str, trailing_slash: bool = False):
+    def __init__(
+        self, client: 'Client', url: str, trailing_slash: bool = False,
+    ):
         self.client = client
         self.trailing_slash = trailing_slash
 
@@ -45,7 +50,7 @@ class Route:
         if trailing_slash:
             _url = StringTemplate(f'{url}/')
 
-        self.url: StringTemplate = _url
+        self.url: Union[str, StringTemplate] = _url
 
         self.headers = HeaderDict()
 
@@ -55,7 +60,7 @@ class Route:
         # Parameters from parent Route
         # ie: in /foo/${barId}/${bazId}, bazId stores barId's value
         # This gets overwritten if new values are given
-        self.prev_kwargs: Dict[str, str] = {}
+        self.prev_kwargs: Mapping[str, str] = {}
 
         self.session = requests.Session()
 
@@ -95,9 +100,12 @@ class Route:
             )
 
         # Ensure all known arguments are preserved.
-        next_kwargs = {**self.prev_kwargs, **kwargs}
+        next_kwargs: Mapping[str, str] = {**self.prev_kwargs, **kwargs}
 
+        # Always make a copy of the callable.
+        # Else multiple calls to the same same Route will overwrite each other.
         copied_route = copy.deepcopy(next_route)
+        # Update url with known arguments.
         copied_route.prev_kwargs = next_kwargs
         copied_route.url = copied_route.url.format(**next_kwargs)
 
@@ -157,13 +165,13 @@ class Route:
             'params': kwargs.get('params'),
         }
 
-        headers = {
+        evaluated_headers: Dict[str, str] = {
             **self.client.headers.run_functions(self.client, request_metadata),
             **self.headers.run_functions(self, request_metadata),
             **local_headers,
         }
 
-        request_metadata['headers'] = headers
+        request_metadata['headers'] = evaluated_headers
 
         self.client.log_request(request_metadata)
 

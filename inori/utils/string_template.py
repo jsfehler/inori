@@ -30,10 +30,10 @@ class StringTemplate:
         """Return self.template.safe_substitute()."""
         return self.__repr__()
 
-    def format(self, mapping: Optional[Dict]=None, **kwargs: str) -> str:  # NOQA A003
+    def format(self, mapping: Optional[Dict[str, str]]=None, **kwargs: str) -> str:  # NOQA A003
         """Format a string in such a way that a partial is allowed.
 
-        Has the same arguments as string.Template.safe_substitute.
+        Accepts the same arguments as string.Template.safe_substitute.
 
         Example:
             s = StringTemplate('${hello}' ${world}')

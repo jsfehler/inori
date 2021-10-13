@@ -79,8 +79,6 @@ class Client:
     def __init__(self, base_uri: str):
         self.base_uri = base_uri
 
-        self.headers: Dict[str, str] = {}
-
         self.headers = HeaderDict()
 
         self.logger = logging.getLogger(f'{__name__} {str(uuid.uuid4())}')
