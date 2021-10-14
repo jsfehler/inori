@@ -153,6 +153,7 @@ class Route:
         Arguments:
             http_method: HTTP method to use for the request
         """
+        self.client.rig.rigs['request'] = {}
         self.rig.rigs['request'] = {}
 
         local_headers = headers or {}

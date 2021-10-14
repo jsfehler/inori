@@ -2,6 +2,8 @@ import logging
 import uuid
 from typing import Dict, List, Union
 
+import shibari
+
 from .route import Route
 from .utils.headerdict import HeaderDict
 from .utils.safe_keyword import safe_keyword
@@ -81,6 +83,9 @@ class Client:
             response_metadata and sent to the logger after a request is made.
 
     """
+
+    rig = shibari.Rig('request')
+    bind = rig.bind
 
     route_paths: List[str] = []
 
