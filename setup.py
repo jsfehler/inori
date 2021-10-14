@@ -11,7 +11,7 @@ def read(filename:str):
 
 setup(
     name="inori",
-    version="0.0.4",
+    version="0.0.5",
     description="The Universal API Client Constructor.",
     long_description=read('README.rst'),
     author="Joshua Fehler",
