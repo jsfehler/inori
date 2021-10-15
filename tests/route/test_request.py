@@ -19,7 +19,7 @@ class MockSession:
 
 
 @mock.patch('requests.Session', MockSession)
-def test_request_route_headers():
+def test_request_client_headers():
     """
     When a request is made
     Then route headers are sent in the request.
