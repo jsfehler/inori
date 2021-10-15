@@ -179,7 +179,7 @@ class Route:
         response = self.session.request(
             http_method,
             self.url,
-            headers=headers,
+            headers=evaluated_headers,
             **kwargs,
         )
 
