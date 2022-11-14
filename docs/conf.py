@@ -23,7 +23,7 @@ copyright = '2021, Joshua Fehler'
 author = 'Joshua Fehler'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.6'
+release = 'v0.0.7'
 
 
 # -- General configuration ---------------------------------------------------
