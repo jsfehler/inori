@@ -14,8 +14,29 @@ class MockResponse:
 
 
 class MockSession:
-    def request(self, http_method, url, headers):
-        return MockResponse(http_method, url, headers, 200, 'Fake Response')
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def request(self, http_method, url, headers, **kwargs):
+        return MockResponse(
+            http_method, url, headers, 200, f'Mock Response: kwargs={kwargs}',
+        )
+
+
+@mock.patch('requests.Session', MockSession)
+def test_client_request_kwargs():
+    """
+    Given a client has request_kwargs defined
+    When a request is made
+    Then request_kwargs are used in the request
+    """
+    client = Client('https://foo.com/v1/')
+    client.request_kwargs = {'verify': False}
+
+    route = client.add_route('bar')
+
+    result = route.get()
+    assert result.text == f'Mock Response: kwargs={client.request_kwargs}'
 
 
 @mock.patch('requests.Session', MockSession)

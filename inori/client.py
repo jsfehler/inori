@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 import shibari
 
@@ -68,6 +68,9 @@ class Client:
     Attributes:
         headers: Dictionary containing all Client-level headers.
 
+        request_kwargs: Dictionary of any arguments to send with every
+            request. Applies to all registered Routes.
+
         logger: Unique logger instance for each Client instance.
 
         request_metadata: Dictionary of relevant metadata from
@@ -96,6 +99,8 @@ class Client:
             self.add_route(route)
 
         self.headers = HeaderDict()
+
+        self.request_kwargs: dict[Optional[str], Optional[str]] = {}
 
         self.logger = logging.getLogger(f'{__name__} {str(uuid.uuid4())}')
         self.logger.addHandler(logging.NullHandler())

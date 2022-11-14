@@ -176,11 +176,16 @@ class Route:
 
         self.client.log_request(request_metadata)
 
+        evaluated_kwargs: Dict[str, str] = {
+            **kwargs,
+            **self.client.request_kwargs,
+        }
+
         response = self.session.request(
             http_method,
             self.url,
             headers=evaluated_headers,
-            **kwargs,
+            **evaluated_kwargs,
         )
 
         response_metadata = {
