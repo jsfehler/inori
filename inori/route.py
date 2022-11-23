@@ -63,6 +63,7 @@ class Route:
         self.prev_kwargs: Mapping[str, str] = {}
 
         self.session = requests.Session()
+        self.session.auth = self.client.auth
 
     def __deepcopy__(self, memodict):
         """Copy in such a way as to avoid copying the client object."""

@@ -92,8 +92,9 @@ class Client:
 
     route_paths: List[str] = []
 
-    def __init__(self, base_uri: str):
+    def __init__(self, base_uri: str, auth=None):
         self.base_uri = base_uri
+        self.auth = auth
 
         for route in self.route_paths:
             self.add_route(route)
