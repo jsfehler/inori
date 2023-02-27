@@ -36,7 +36,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
-    'sphinx-autodoc-typehints',
+    'sphinx_autodoc_typehints',
 ]
 
 napoleon_use_param = True
