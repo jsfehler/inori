@@ -48,7 +48,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          tox -e flake8;
+          tox -e lint;
           tox -e ${{matrix.PY_VER}};
 
       - name: "Upload coverage to Codecov"
