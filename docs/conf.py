@@ -36,7 +36,10 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
+    'sphinx-autodoc-typehints',
 ]
+
+napoleon_use_param = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
