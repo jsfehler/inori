@@ -62,7 +62,7 @@ class Route:
         # This gets overwritten if new values are given
         self.prev_kwargs: Mapping[str, str] = {}
 
-        self.session = requests.Session()
+        self.session = self.client.new_session()
         self.session.auth = self.client.auth
 
     def __deepcopy__(self, memodict):

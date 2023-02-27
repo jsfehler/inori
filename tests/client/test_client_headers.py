@@ -3,14 +3,6 @@ from unittest import mock
 from inori import Client
 
 
-import pytest
-
-
-@pytest.fixture()
-def client():
-    return Client('https://foo.com/v1/')
-
-
 def test_multiple_clients():
     """
     When I have multiple Client objects

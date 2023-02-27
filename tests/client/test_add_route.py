@@ -1,12 +1,5 @@
 from inori import Client, Route
 
-import pytest
-
-
-@pytest.fixture()
-def client():
-    return Client('https://foo.com/v1/')
-
 
 def test_returned_object(client):
     """

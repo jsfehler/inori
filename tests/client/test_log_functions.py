@@ -1,11 +1,4 @@
-from inori import Client, Route
-
-import pytest
-
-
-@pytest.fixture()
-def client():
-    return Client('https://foo.com/v1/')
+from inori import Route
 
 
 def test_log_request(client):

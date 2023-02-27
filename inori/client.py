@@ -2,6 +2,8 @@ import logging
 import uuid
 from typing import Dict, List, Optional, Union
 
+import requests
+
 import shibari
 
 from .route import Route
@@ -123,6 +125,13 @@ class Client:
             '\n Status Code {status_code}'
             '\n Body: {text}'
         )
+
+    def new_session(self) -> requests.Session:
+        """Get a new instance of requests.Session.
+
+        Route objects will call this method during init.
+        """
+        return requests.Session()
 
     def add_route(self, path: str, trailing_slash: bool = False) -> Route:
         """Take a path string and create Route objects from it.
