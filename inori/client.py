@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import requests
 
@@ -103,7 +103,8 @@ class Client:
 
         self.headers = HeaderDict()
 
-        self.request_kwargs: dict[Optional[str], Optional[str]] = {}
+        # Keyword args that will be sent on every request made by a Route.
+        self.request_kwargs: dict[Optional[str], Optional[Any]] = {}
 
         self.logger = logging.getLogger(f'{__name__} {str(uuid.uuid4())}')
         self.logger.addHandler(logging.NullHandler())
