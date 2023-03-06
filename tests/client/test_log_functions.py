@@ -22,7 +22,7 @@ def test_log_request(client):
         "\n Params: {'name': 'Jack'}"
     )
 
-    result = client.log_request(metadata)
+    result = client.logging.log_request(metadata)
     assert result == expected_result
 
 
@@ -42,5 +42,5 @@ def test_log_response(client):
         '\n Body: Hello World'
     )
 
-    result = client.log_response(metadata)
+    result = client.logging.log_response(metadata)
     assert result == expected_result

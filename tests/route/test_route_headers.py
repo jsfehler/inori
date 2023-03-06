@@ -1,15 +1,5 @@
 from unittest import mock
 
-from inori import Client
-
-
-import pytest
-
-
-@pytest.fixture()
-def client():
-    return Client('https://foo.com/v1/')
-
 
 @mock.patch('requests.Session', mock.Mock())
 def test_function_headers(client):
@@ -30,4 +20,4 @@ def test_function_headers(client):
         'params': None,
     }
 
-    assert client.request_metadata == expected
+    assert client.metadata_recorder.request_metadata == expected

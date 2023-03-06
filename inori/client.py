@@ -1,11 +1,12 @@
 import logging
 import uuid
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, List, Optional, Union
 
 import requests
 
 import shibari
 
+from .logging import Logging
 from .route import Route
 from .utils.headerdict import HeaderDict
 from .utils.safe_keyword import safe_keyword
@@ -75,18 +76,6 @@ class Client:
 
         logger: Unique logger instance for each Client instance.
 
-        request_metadata: Dictionary of relevant metadata from
-            the last request.
-
-        response_metadata: Dictionary of relevant metadata from
-            the last response.
-
-        logger_request_message: String that will be formatted with
-            request_metadata and sent to the logger when a request is made.
-
-        logger_response_message: String that will be formatted with
-            response_metadata and sent to the logger after a request is made.
-
     """
 
     rig = shibari.Rig('request')
@@ -109,23 +98,16 @@ class Client:
         self.logger = logging.getLogger(f'{__name__} {str(uuid.uuid4())}')
         self.logger.addHandler(logging.NullHandler())
 
-        # Gets reset every request
-        self.request_metadata: Dict[str, str] = {}
-        self.response_metadata: Dict[str, str] = {}
+        self.logging = Logging(self.logger)
 
-        # Default logger messages
-        self.logger_request_message = (
-            '\n{http_method} request to {route}'
-            '\n Headers: {headers}'
-            '\n Body: {data}'
-            '\n Params: {params}'
-        )
-
-        self.logger_response_message = (
-            '\n{http_method} response from {route}'
-            '\n Status Code {status_code}'
-            '\n Body: {text}'
-        )
+        self.hooks = {
+            "request": [
+                self.logging.log_request,
+            ],
+            "response": [
+                self.logging.log_response,
+            ],
+        }
 
     def new_session(self) -> requests.Session:
         """Get a new instance of requests.Session.
@@ -203,33 +185,3 @@ class Client:
             routes.append(new_route)
 
         return routes[-1]
-
-    def log_request(self, metadata: Dict[str, str]) -> str:
-        """Log request info.
-
-        Arguments:
-            metadata: The content of the metadata will be formatted into
-            self.logger_request_message.
-
-        Returns: The formatted message.
-        """
-        self.request_metadata = metadata
-
-        message = self.logger_request_message.format(**metadata)
-        self.logger.info(message)
-        return message
-
-    def log_response(self, metadata: Dict[str, str]) -> str:
-        """Log response info.
-
-        Arguments:
-            metadata: The content of the metadata will be formatted into
-            self.logger_response_message.
-
-        Returns: The formatted message.
-        """
-        self.response_metadata = metadata
-
-        message = self.logger_response_message.format(**metadata)
-        self.logger.info(message)
-        return message

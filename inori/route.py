@@ -175,7 +175,8 @@ class Route:
 
         request_metadata['headers'] = evaluated_headers
 
-        self.client.log_request(request_metadata)
+        for fn in self.client.hooks['request']:
+            fn(request_metadata)
 
         evaluated_kwargs: Dict[str, str] = {
             **kwargs,
@@ -196,6 +197,7 @@ class Route:
             'text': response.text,
         }
 
-        self.client.log_response(response_metadata)
+        for fn in self.client.hooks['response']:
+            fn(response_metadata)
 
         return response

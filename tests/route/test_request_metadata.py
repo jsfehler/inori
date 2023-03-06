@@ -1,14 +1,11 @@
 from unittest import mock
 
-from inori import Client
-
 
 @mock.patch('requests.Session', mock.Mock())
-def test_build_endpoint_simple():
-    client = Client('https://foo.com/v1/')
+def test_build_endpoint_simple(client):
     route = client.add_route('bar')
 
-    assert client.request_metadata == {}
+    assert client.metadata_recorder.request_metadata == {}
 
     route.get()
 
@@ -20,4 +17,4 @@ def test_build_endpoint_simple():
         'params': None,
     }
 
-    assert client.request_metadata == expected
+    assert client.metadata_recorder.request_metadata == expected

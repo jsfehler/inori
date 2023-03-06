@@ -3,7 +3,7 @@ from unittest import mock
 from inori import Client
 
 
-def test_multiple_clients():
+def test_multiple_clients(client):
     """
     When I have multiple Client objects
     Then they should not share state.
@@ -36,4 +36,4 @@ def test_function_headers(client):
         'params': None,
     }
 
-    assert client.request_metadata == expected
+    assert client.metadata_recorder.request_metadata == expected
