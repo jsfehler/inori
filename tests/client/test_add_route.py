@@ -171,3 +171,17 @@ def test_long_chaining_children(client):
 
     route = client.bar(barId=10)(bazId=20).bin(binId=30).bao
     assert route.url == 'https://foo.com/v1/bar/10/20/bin/30/bao'
+
+
+def test_dash_in_route(client):
+    """
+    When a Route name has a dash in it
+    Then the variable name uses an underscore instead of a dash
+    """
+    expected_url = 'https://foo.com/v1/foo-bar'
+
+    client.add_route('foo-bar')
+    assert client.foo_bar.url == expected_url
+
+    route = client.foo_bar
+    assert route.url == expected_url

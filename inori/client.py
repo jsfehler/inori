@@ -9,7 +9,7 @@ import shibari
 from .logging import Logging
 from .route import Route
 from .utils.headerdict import HeaderDict
-from .utils.safe_keyword import safe_keyword
+from .utils.sanitize import safe_keyword, safe_illegal_character
 
 
 class Client:
@@ -133,10 +133,11 @@ class Client:
         pieces = [i for i in path.split('/') if i != '']
 
         # Ensure first piece is safe to use as a python variable.
-        pieces[0] = safe_keyword(pieces[0])
+        route_name: str = safe_keyword(pieces[0])
+        route_name = safe_illegal_character(route_name)
 
         # Check if a Route already exists.
-        existing_route: Union[Route, None] = getattr(self, pieces[0], None)
+        existing_route: Union[Route, None] = getattr(self, route_name, None)
 
         # Create new Route if none exists
         if not existing_route:
@@ -145,9 +146,9 @@ class Client:
                 url=f'{self.base_uri}{pieces[0]}',
                 trailing_slash=trailing_slash,
             )
-            setattr(self, pieces[0], r)
+            setattr(self, route_name, r)
 
-        route: Route = getattr(self, pieces[0])
+        route: Route = getattr(self, route_name)
 
         # Remove first piece to get list of nested paths.
         nested_pieces = pieces[1:]
@@ -175,10 +176,13 @@ class Client:
 
             # Children
             else:
-                item = safe_keyword(item)
+                nested_route_name: str = safe_keyword(item)
+                nested_route_name = safe_illegal_character(nested_route_name)
                 new_route = getattr(last_route, item, None)
                 if not new_route:
-                    new_route = Route(self, f"{last_route.url}/{item}")
+                    new_route = Route(
+                        self, f"{last_route.url}/{nested_route_name}",
+                    )
                     last_route.children[item] = new_route
                     setattr(last_route, item, new_route)
 
