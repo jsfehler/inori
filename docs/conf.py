@@ -14,6 +14,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
 
+import inori
 from inori import *
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +24,7 @@ copyright = '2021, Joshua Fehler'
 author = 'Joshua Fehler'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.11'
+version = inori.__version__
 
 
 # -- General configuration ---------------------------------------------------
