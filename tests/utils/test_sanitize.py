@@ -1,4 +1,4 @@
-from inori.utils.sanitize import safe_keyword, safe_illegal_character
+from inori.utils.sanitize import safe_illegal_character, safe_keyword
 
 
 def test_safe_keyword():

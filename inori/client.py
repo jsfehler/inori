@@ -9,7 +9,7 @@ import shibari
 from .logging import Logging
 from .route import Route
 from .utils.headerdict import HeaderDict
-from .utils.sanitize import safe_keyword, safe_illegal_character
+from .utils.sanitize import safe_illegal_character, safe_keyword
 
 
 class Client:
