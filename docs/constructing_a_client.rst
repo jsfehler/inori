@@ -38,6 +38,32 @@ to specify routes for the Client. The Route objects will be created on init.
 >>> my_client.allPeople(peopleId=1).get()
 
 
+Handling Illegal Characters
+===========================
+
+Python Keywords
+~~~~~~~~~~~~~~~
+
+When a route's name matches a python keyword, an underscore is added as a prefix to the variable name.
+
+.. code-block:: python
+
+    my_client.add_route('import')
+
+    >>> my_client._import.get()
+
+Dashes
+~~~~~~
+
+When a route's name has a dash, the dash is replaced with an underscore for the variable name.
+
+.. code-block:: python
+
+    my_client.add_route('all-things')
+
+    >>> my_client.all_things.get()
+
+
 Customizing the Session
 =======================
 
