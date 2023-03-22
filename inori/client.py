@@ -178,13 +178,15 @@ class Client:
             else:
                 nested_route_name: str = safe_keyword(item)
                 nested_route_name = safe_illegal_character(nested_route_name)
-                new_route = getattr(last_route, item, None)
+
+                # Check if route already exists
+                new_route = getattr(last_route, nested_route_name, None)
                 if not new_route:
                     new_route = Route(
-                        self, f"{last_route.url}/{nested_route_name}",
+                        self, f"{last_route.url}/{item}",
                     )
                     last_route.children[item] = new_route
-                    setattr(last_route, item, new_route)
+                    setattr(last_route, nested_route_name, new_route)
 
             routes.append(new_route)
 

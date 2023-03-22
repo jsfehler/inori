@@ -185,3 +185,23 @@ def test_dash_in_route(client):
 
     route = client.foo_bar
     assert route.url == expected_url
+
+
+def test_dash_in_nested_route(client):
+    expected_url = 'https://foo.com/v1/foo-bar/baz-bin'
+
+    client.add_route('foo-bar/baz-bin')
+    assert client.foo_bar.baz_bin.url == expected_url
+
+    route = client.foo_bar.baz_bin
+    assert route.url == expected_url
+
+
+def test_dash_in_nested_callable_route(client):
+    expected_url = 'https://foo.com/v1/foo-bar/baz-bin/555'
+
+    client.add_route('foo-bar/baz-bin/${zam}')
+    assert client.foo_bar.baz_bin(zam=555).url == expected_url
+
+    route = client.foo_bar.baz_bin(zam=555)
+    assert route.url == expected_url
