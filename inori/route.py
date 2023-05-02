@@ -145,7 +145,7 @@ class Route:
                 http_method: str,
                 *args: Any,
                 headers: Optional[Union[Dict[str, str], None]] = None,
-                **kwargs: Optional[Any],
+                **kwargs: Any,
                 ) -> requests.Response:
         """Send an HTTP Request.
 
@@ -178,7 +178,7 @@ class Route:
         for fn in self.client.hooks['request']:
             fn(request_metadata)
 
-        evaluated_kwargs: Dict[str, str] = {
+        evaluated_kwargs: Dict[str, Any] = {
             **kwargs,
             **self.client.request_kwargs,
         }
