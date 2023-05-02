@@ -23,8 +23,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - PY_VER: py37
-            python-version: 3.7
           - PY_VER: py38
             python-version: 3.8
           - PY_VER: py39
