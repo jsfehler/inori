@@ -1,2 +1,2 @@
 shibari==0.0.2
-sphinx-autodoc-typehints==2.0.0
+sphinx-autodoc-typehints==2.0.1
