@@ -65,6 +65,9 @@ class Route:
         self.session = self.client.new_session()
         self.session.auth = self.client.auth
 
+    def __repr__(self):  # NOQA
+        return f"Route: <{str(self.url)}>"
+
     def __deepcopy__(self, memodict):
         """Copy in such a way as to avoid copying the client object."""
         new = type(self)(self.client, str(self.url), self.trailing_slash)
@@ -117,13 +120,20 @@ class Route:
 
         # Children of this callable should know about the last arguments.
         for _, child_route in copied_route.children.items():
-            child_route.url = child_route.url.format(**next_kwargs)
-            child_route.prev_kwargs = next_kwargs
+            copied_route._update_url(next_kwargs)
 
             for callable_route in child_route.callables.values():
                 callable_route.url = callable_route.url.format(**next_kwargs)
 
         return copied_route
+
+    def _update_url(self, new_kwargs: str) -> None:
+        """Update this Route and it's children's urls with new values."""
+        self.url = self.url.format(**new_kwargs)
+        self.prev_kwargs = new_kwargs
+
+        for _, child_route in self.children.items():
+            child_route._update_url(new_kwargs)
 
     def post(self, *args: Any, **kwargs: Any) -> requests.Response:
         """Send a POST request."""
