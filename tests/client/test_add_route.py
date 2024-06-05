@@ -140,7 +140,7 @@ def test_multiple_args_reuse(client):
     assert b.url == 'https://foo.com/v1/bar/2/20'
 
 
-def test_chaining():
+def test_chaining_callables():
     client = Client('https://foo.com/v1/')
     client.add_route('bar/${potatoId}/biz/${tomatoId}')
 
@@ -148,7 +148,7 @@ def test_chaining():
     assert result.url == 'https://foo.com/v1/bar/10/biz/55'
 
 
-def test_long_chaining(client):
+def test_long_chaining_callables(client):
     client.add_route('bar/${barId}/${bazId}/${binId}')
 
     a = client.bar(barId=1)
@@ -166,11 +166,23 @@ def test_long_chaining(client):
     assert c.url == 'https://foo.com/v1/bar/1/20/100'
 
 
-def test_long_chaining_children(client):
+def test_long_chaining_callables_to_children(client):
     client.add_route('bar/${barId}/${bazId}/bin/${binId}/bao')
 
     route = client.bar(barId=10)(bazId=20).bin(binId=30).bao
     assert route.url == 'https://foo.com/v1/bar/10/20/bin/30/bao'
+
+
+def test_chaining_descendant_children_of_callable(client):
+    """
+    When a callable has a child with it's own children
+    Then the children inherit the values of the callable.
+    """
+    client.add_route('johnathan/${cId}/joseph/holly/jotaro/jolyne')
+
+    a = client.johnathan(cId=1).joseph.holly.jotaro.jolyne
+
+    assert a.url == 'https://foo.com/v1/johnathan/1/joseph/holly/jotaro/jolyne'
 
 
 def test_dash_in_route(client):
