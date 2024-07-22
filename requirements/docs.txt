@@ -1,4 +1,4 @@
 shibari==0.0.2
 Sphinx==7.4.7
 sphinx-autodoc-typehints==2.2.3
-sphinx-immaterial==0.11.14
+sphinx-immaterial==0.12.0
